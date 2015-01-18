@@ -33,3 +33,8 @@
 .row:last-child .col{
 	border-bottom:0;
 }
+
+.symbol{
+	font-size:48px;
+	color:#999;
+}

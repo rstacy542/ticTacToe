@@ -17,5 +17,19 @@ GameBoardTest.prototype.testSetSquare = function(){
 	
 	gameBoard.setSquare(1, 1,'O');
 	assertEquals('O', gameBoard.squares[4]);
+	
+	assertEquals('', gameBoard.squares[2]);
+};
 
+GameBoardTest.prototype.testGetSquareSymbol = function(){
+	var gameBoard = new GameBoard();
+
+	assertEquals('', gameBoard.getSquareSymbol(0,0));
+
+	gameBoard.setSquare(0, 0,'X');
+	assertEquals('X', gameBoard.getSquareSymbol(0,0));
+
+	gameBoard.setSquare(1, 1,'O');
+	assertEquals('O', gameBoard.getSquareSymbol(1,1));
+		
 };
