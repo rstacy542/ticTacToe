@@ -5,7 +5,8 @@ import scalate.ScalateSupport
 
 class ComputerPlayer extends ScalatraServlet with ScalateSupport {
 
-  get("/nextMove") {
+  get("/nextMove/:boardSquares") {
+    println("SERVICE CALLED: " + {params("boardSquares")});
     "8"
   }
 

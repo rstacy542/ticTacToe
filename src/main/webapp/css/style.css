@@ -26,6 +26,10 @@
 	cursor:pointer;
 }
 
+.col.disabled{
+	cursor:wait;
+}
+
 .col:last-child{
 	border-right:0;
 }

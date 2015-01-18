@@ -8,6 +8,7 @@
 		<script src="js/app.js"></script>
 		<script src="js/game_controller.js"></script>
  		<script src="js/models/game-board.js"></script>
+		<script src="js/services/computer-player-service.js"></script>
 	</head>
 	<body ng-app="app" ng-controller="GameController as game">
 		<h1>{{game.title}}</h1>
@@ -17,8 +18,8 @@
 			<div class="tictactoe">
 				<div class="board">
 					<div ng-repeat="row in game.grid track by $index" class="row">
-						<div ng-repeat="col in game.grid track by $index" col-index="{{$index}}" row-index="{{$parent.$index}}" class="col" ng-click="game.makePlayerMove($parent.$index, $index)">
-							<span class="symbol">{{game.getSquareSymbol($parent.$index, $index)}}</span>
+						<div ng-repeat="col in game.grid track by $index" col-index="{{$index}}" row-index="{{$parent.$index}}" class="col" ng-class="{'disabled' : game.boardDisabled}" ng-click="game.makePlayerMove($parent.$index, $index)">
+							<span disabled=true class="symbol">{{game.getSquareSymbol($parent.$index, $index)}}</span>
 						</div>
 					</div>
 				</div>
