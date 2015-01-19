@@ -1,22 +1,11 @@
-package com.rts.tictactoe
+package com.rts.tictactoe.services
 
 import org.scalatra.test.specs2._
+import com.rts.tictactoe.ComputerPlayer
 
 class ComputerPlayerTest extends MutableScalatraSpec {
   
   addServlet(classOf[ComputerPlayer], "/*")
-
-  "highestPrioritySquareOpen " should {
-     "return 4 when there are no squares currently taken" in {
-       ComputerPlayer.highestPrioritySquareOpen(Array(" "," "," "," "," "," "," "," "," ")) must_== 4
-     }
-     "return -1 when all squares are currently taken" in {
-       ComputerPlayer.highestPrioritySquareOpen(Array("X","X","X","X","X","X","X","X","X")) must_== -1      
-     }
-     "return 0 when the 4th square is already taken" in {
-       ComputerPlayer.highestPrioritySquareOpen(Array(" "," "," "," ","X"," "," "," "," ")) must_== 0       
-     }
-  }
   
   "GET /nextMove/,,,,,,,,, on ComputerPlayer" should {
     "return square index 4 when all squares are available" in {
