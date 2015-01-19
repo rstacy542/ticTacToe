@@ -2,21 +2,11 @@ package com.rts.tictactoe.models
 
 class GameBoard(val boardSquaresArray:Array[String]) {
 
-  //Ordered array of square indices in order of best squares to play in
-  def squarePrioritization: List[Int] = List(4, 0, 2, 6, 8, 1, 3, 5, 7);
-
-  def winningCombinations: List[List[Int]] = 
-    List(List(0,1,2),
-        List(3,4,5),
-        List(6,7,8),
-        List(0,3,6),
-        List(1,4,7),
-        List(2,5,8),
-        List(0,4,8),
-        List(2,4,6));
+  lazy val middleSquareSymbol = boardSquaresArray(4);
+  lazy val filledSquaresCount = boardSquaresArray.filter { x => x != " " }.size
   
   def highestPrioritySquareOpen():Int = {
-    val prioritizedListOfRemainingSquares = squarePrioritization.filter { x => boardSquaresArray(x) == " " };
+    val prioritizedListOfRemainingSquares = GameBoard.squarePrioritization.filter { x => boardSquaresArray(x) == " " };
     if (prioritizedListOfRemainingSquares.isEmpty)
       return -1;
     else
@@ -25,7 +15,7 @@ class GameBoard(val boardSquaresArray:Array[String]) {
 
   //TODO: Research a way to not have to re-execute the winningSquareFor method when the winning combination found
   def winningMoveFor(symbol: String):Int = {   
-    val winningCombination = winningCombinations.find { x => winningSquareFor(symbol, x) != -1 }
+    val winningCombination = GameBoard.winningCombinations.find { x => winningSquareFor(symbol, x) != -1 }
     if (winningCombination == None) 
       return -1;
     else
@@ -47,4 +37,25 @@ class GameBoard(val boardSquaresArray:Array[String]) {
         return -1;
     }
   }
+  
+  def futureWinningMoveExistsFor(symbol: String):Boolean = middleSquareSymbol == GameBoard.opposingSymbol(symbol) && filledSquaresCount == 3
+  def bestSquareToBlockWinningScenarioFor(symbol: String) = 1;
+}
+object GameBoard {
+  
+  def opposingSymbol(symbol: String) = if (symbol == "O") "X" else "O";
+  
+  //Ordered array of square indices in order of best squares to play in
+  def squarePrioritization: List[Int] = List(4, 0, 2, 6, 8, 1, 3, 5, 7);
+
+  def winningCombinations: List[List[Int]] = 
+    List(List(0,1,2),
+        List(3,4,5),
+        List(6,7,8),
+        List(0,3,6),
+        List(1,4,7),
+        List(2,5,8),
+        List(0,4,8),
+        List(2,4,6));
+  
 }

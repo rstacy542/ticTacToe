@@ -6,6 +6,18 @@ class GameBoardTest extends MutableScalatraSpec {
 
   val emptyGameBoard = new GameBoard(Array(" ", " ", " ", " ", " ", " ", " ", " ", " "));
   
+  "filledSquaresCount " should {
+    "return 0 when the board is empty" in {
+      emptyGameBoard.filledSquaresCount must_== 0;
+    }
+    "return 9 when board is full" in {
+      new GameBoard(Array("X", "X", "X", "X", "X", "X", "X", "X", "X")).filledSquaresCount must_== 9;
+    }
+    "return 3 when board has 2 X and 1 O" in {
+      new GameBoard(Array("O", " ", " ", " ", "X", " ", " ", " ", "X")).filledSquaresCount must_== 3;
+    }
+  }
+  
   "highestPrioritySquareOpen " should {
      "return 4 when there are no squares currently taken" in {
        emptyGameBoard.highestPrioritySquareOpen() must_== 4
@@ -60,6 +72,34 @@ class GameBoardTest extends MutableScalatraSpec {
     }
     "return -1 for symbol O" in {
       emptyGameBoard.winningMoveFor("O") must_== -1;
+    }
+  }
+  
+  "opposingSymbol " should {
+    "return O when passed X" in {
+      GameBoard.opposingSymbol("X") must_== "O";
+    }
+    "return X when passed O" in {
+      GameBoard.opposingSymbol("O") must_== "X";
+    }
+  }
+  
+  "futureWinningMoveExistsFor " should {
+    "return false when the middle square is not the opposite of symbol passed to it" in {
+      val gameBoard = new GameBoard(Array("X", " ", " ", " ", "O", " ", " ", " ", "X"));
+      gameBoard.futureWinningMoveExistsFor("O") must_== false;
+    }
+    "return false when their are less than 3 squares played" in {
+      val gameBoard = new GameBoard(Array("O", " ", " ", " ", "X", " ", " ", " ", " "));
+      gameBoard.futureWinningMoveExistsFor("O") must_== false;
+    }
+    "return false when their are more than 3 squares played" in {
+      val gameBoard = new GameBoard(Array("O", "X", " ", " ", "X", " ", " ", "O", " "));
+      gameBoard.futureWinningMoveExistsFor("O") must_== false;
+    }
+    "return true when middle square is opposite symbol and only 3 squares have been played" in {
+      val gameBoard = new GameBoard(Array("X", " ", " ", " ", "O", " ", " ", " ", "X"));
+      gameBoard.futureWinningMoveExistsFor("X") must_== true;
     }
   }
 }

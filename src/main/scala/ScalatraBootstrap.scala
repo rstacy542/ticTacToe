@@ -1,4 +1,4 @@
-import com.rts.tictactoe._
+import com.rts.tictactoe.services._
 import org.scalatra._
 import javax.servlet.ServletContext
 

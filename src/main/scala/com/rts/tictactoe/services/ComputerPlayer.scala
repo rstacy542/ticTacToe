@@ -1,4 +1,4 @@
-package com.rts.tictactoe
+package com.rts.tictactoe.services;
 
 import org.scalatra._
 import scalate.ScalateSupport
@@ -16,9 +16,30 @@ class ComputerPlayer extends ScalatraServlet with ScalateSupport {
     }
     
     val gameBoard = new GameBoard(boardSquaresArray);
-    
-    //handle scenario where only 1 O on board and it is in middle and no way for computer to win
-    Ok(gameBoard.highestPrioritySquareOpen());
+    Ok(ComputerPlayer.nextComputerMove(gameBoard));    
   }
 
+}
+object ComputerPlayer {
+  
+  private val COMPUTER_SYMBOL = "O";
+  private val PLAYER_SYMBOL = "X";
+  
+  def nextComputerMove(gameBoard:GameBoard):Int = {
+    val winningComputerMove = gameBoard.winningMoveFor(COMPUTER_SYMBOL); 
+    lazy val winningPlayerMove = gameBoard.winningMoveFor(PLAYER_SYMBOL);
+    
+    if (winningComputerMove != -1) 
+      winningComputerMove;
+    else if (winningPlayerMove != -1) 
+      winningPlayerMove;
+    else {
+      if (gameBoard.futureWinningMoveExistsFor(PLAYER_SYMBOL)) {
+        gameBoard.bestSquareToBlockWinningScenarioFor(PLAYER_SYMBOL);
+      } else {
+        gameBoard.highestPrioritySquareOpen();
+      }
+    }
+  }
+  
 }
