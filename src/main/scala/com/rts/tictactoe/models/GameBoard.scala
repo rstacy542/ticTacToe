@@ -23,8 +23,13 @@ class GameBoard(val boardSquaresArray:Array[String]) {
       return prioritizedListOfRemainingSquares.head;
   };
 
-  def winningMoveFor(symbol: String):Int = {
-    return -1;
+  //TODO: Research a way to not have to re-execute the winningSquareFor method when the winning combination found
+  def winningMoveFor(symbol: String):Int = {   
+    val winningCombination = winningCombinations.find { x => winningSquareFor(symbol, x) != -1 }
+    if (winningCombination == None) 
+      return -1;
+    else
+      return winningSquareFor(symbol, winningCombination.get)
   }
   
   //Returns the square to be played in order to win the game, or -1 if there is no winning move possible

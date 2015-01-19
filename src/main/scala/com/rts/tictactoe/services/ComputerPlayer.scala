@@ -22,12 +22,3 @@ class ComputerPlayer extends ScalatraServlet with ScalateSupport {
   }
 
 }
-object ComputerPlayer {
-  def winningSquaresForComputersNextMove(boardSquaresArray:Array[String]):List[Int] = {    
-    return List();
-  }
- 
-  def winningSquaresForPlayersNextMove(boardSquaresArray:Array[String]):List[Int] = {    
-    return List();
-  }
-}
