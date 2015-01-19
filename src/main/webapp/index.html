@@ -18,7 +18,7 @@
 			<div class="tictactoe">
 				<div class="board">
 					<div ng-repeat="row in game.grid track by $index" class="row">
-						<div ng-repeat="col in game.grid track by $index" col-index="{{$index}}" row-index="{{$parent.$index}}" class="col" ng-class="{'disabled' : game.boardDisabled}" ng-click="game.makePlayerMove($parent.$index, $index)">
+						<div ng-repeat="col in game.grid track by $index" col-index="{{$index}}" row-index="{{$parent.$index}}" class="col" ng-class="{'disabled' : !game.gameOver && game.boardDisabled}" ng-click="game.makePlayerMove($parent.$index, $index)">
 							<span disabled=true class="symbol">{{game.getSquareSymbol($parent.$index, $index)}}</span>
 						</div>
 					</div>

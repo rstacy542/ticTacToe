@@ -5,14 +5,25 @@ angular.module('app').controller("GameController", function(gameBoard, ComputerP
     gameController.title = "Tic Tac Toe";
     gameController.grid = new Array(3);
     gameController.boardDisabled = false;
+    gameController.gameOver = false;
     
     gameController.makePlayerMove = function(row, col) {
+    	//only process the event if it is the players turn
     	if (!gameController.boardDisabled) {
     		gameController.boardDisabled = true;
     		gameBoard.setSquare(row, col, 'X');	
-    		var squarePickedByComputer = ComputerPlayerService.nextMove(gameBoard.squares);
-    		gameBoard.setSquare(2, 2, 'O');
-    		gameController.boardDisabled = false;
+    		
+    		if (gameBoard.isFull()) {
+    			alert("Game Over");
+    			gameController.gameOver = true;
+    		} else {
+	    		ComputerPlayerService.nextMove(gameBoard.squares).then(function(squareIndex) {
+	   				gameBoard.setSquareByIndex(ComputerPlayerService.computerNextMoveIndex(), 'O');
+		    		gameController.boardDisabled = false;    
+	    		}, function(reason) {
+	    			alert(reason);
+	    		});
+	    	}
     	}
     }
     
