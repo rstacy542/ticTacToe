@@ -5,6 +5,12 @@ class GameBoard(val boardSquaresArray:Array[String]) {
   lazy val middleSquareSymbol = boardSquaresArray(4);
   lazy val filledSquaresCount = boardSquaresArray.filter { x => x != " " }.size
   
+  def symbolWinsWith(winningCombination:List[Int], symbol: String):Boolean = winningCombination.filter { x => boardSquaresArray(x) == symbol }.length == 3;
+  
+  def playerWinsWith(winningCombination:List[Int]):Boolean = if (symbolWinsWith(winningCombination, "X") || symbolWinsWith(winningCombination, "O")) true else false;   
+
+  def winningCombination():Option[List[Int]] = GameBoard.winningCombinationsList.find { x => playerWinsWith(x) };
+  
   def highestPrioritySquareOpen():Int = {
     val prioritizedListOfRemainingSquares = GameBoard.squarePrioritization.filter { x => boardSquaresArray(x) == " " };
     if (prioritizedListOfRemainingSquares.isEmpty)
@@ -15,7 +21,7 @@ class GameBoard(val boardSquaresArray:Array[String]) {
 
   //TODO: Research a way to not have to re-execute the winningSquareFor method when the winning combination found
   def winningMoveFor(symbol: String):Int = {   
-    val winningCombination = GameBoard.winningCombinations.find { x => winningSquareFor(symbol, x) != -1 }
+    val winningCombination = GameBoard.winningCombinationsList.find { x => winningSquareFor(symbol, x) != -1 }
     if (winningCombination == None) 
       return -1;
     else
@@ -48,7 +54,7 @@ object GameBoard {
   //Ordered array of square indices in order of best squares to play in
   def squarePrioritization: List[Int] = List(4, 0, 2, 6, 8, 1, 3, 5, 7);
 
-  def winningCombinations: List[List[Int]] = 
+  def winningCombinationsList: List[List[Int]] = 
     List(List(0,1,2),
         List(3,4,5),
         List(6,7,8),

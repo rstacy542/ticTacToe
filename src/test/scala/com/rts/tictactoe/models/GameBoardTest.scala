@@ -102,4 +102,46 @@ class GameBoardTest extends MutableScalatraSpec {
       gameBoard.futureWinningMoveExistsFor("X") must_== true;
     }
   }
+  
+  "symbolWinsWith " should {
+    val gameBoard = new GameBoard(Array("X", "X", "X", "O", "X", "O", " ", "O", "O"));
+    "return false when all squares are empty for the combination" in {
+      emptyGameBoard.symbolWinsWith(List(0,1,2), "X") must_== false;
+    }
+    "return false when all squares are symbol X but asking if symbol O wins" in {
+      gameBoard.symbolWinsWith(List(0,1,2), "O") must_== false;
+    }
+    "return true when all squares are symbol X " in {
+      gameBoard.symbolWinsWith(List(0,1,2), "X") must_== true;
+    }
+    "return false when 2 of three squares are O but last is empty " in {
+      gameBoard.symbolWinsWith(List(6,7,8), "O") must_== false;
+    }
+    "return false when 2 of three squares are O but last is X " in {
+      gameBoard.symbolWinsWith(List(3,4,5), "O") must_== false;
+    }
+  }
+  
+  "playerWinsWith " should {
+    val gameBoard = new GameBoard(Array("X", "X", "X", "O", "X", "O", " ", "O", "O"));
+    "return true for combination 0,1,2 " in {
+      gameBoard.playerWinsWith(List(0,1,2)) must_== true;
+    }  
+    "return false for combination 3,4,5 " in {      
+      gameBoard.playerWinsWith(List(3,4,5)) must_== false;      
+    }
+  }
+  
+  "winningCombination " should {
+    "return true when there is an X in the 0,1,2 slots" in {
+       val gameBoard = new GameBoard(Array("X", "X", "X", "O", "X", "O", " ", "O", "O"));
+       val winningCombination = gameBoard.winningCombination();
+       winningCombination.isDefined must_== true
+       winningCombination.get must_== List(0,1,2)
+    }
+    "return false when no winning combinations exist on the board" in {
+      val gameBoard = new GameBoard(Array("X", "O", "X", "O", "X", "O", " ", " ", " "));
+      gameBoard.winningCombination().isDefined must_== false;
+    }
+  }
 }
