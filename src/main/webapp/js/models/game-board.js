@@ -3,6 +3,7 @@
 var GameBoard = function(){
 	this.squares = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
 	this.squaresFilled = 0;
+	this.winningCombination = new Array(3);
 }
 
 GameBoard.prototype = {
@@ -25,6 +26,13 @@ GameBoard.prototype = {
 			return true;
 		else
 			return false;
-	}
+	},
+	isWinningSquare:function(row, col) {
+    	var squareIndex = this.calculateSquareIndex(row, col);
+    	if (this.winningCombination[0] == squareIndex || this.winningCombination[1] == squareIndex || this.winningCombination[2] == squareIndex)
+    		return true;
+    	else
+    		return false;
+    }
 			
 }

@@ -42,3 +42,7 @@
 	font-size:48px;
 	color:#999;
 }
+
+.symbol.winner{
+	color:green;
+}

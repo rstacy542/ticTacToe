@@ -6,7 +6,6 @@ angular.module('app').controller("GameController", function(gameBoard, ComputerP
     gameController.grid = new Array(3);
     gameController.boardDisabled = false;
     gameController.gameOver = false;
-    gameController.winningCombination = new Array(3);
     gameController.gameWon = false;
     
     gameController.makePlayerMove = function(row, col) {
@@ -50,8 +49,8 @@ angular.module('app').controller("GameController", function(gameBoard, ComputerP
     
     gameController.checkForWinner = function(playerJustMoved) {
 		WinnerService.winningCombination(gameBoard.squares).then(function() {
-			gameController.winningCombination = WinnerService.theWinningCombination();
-			if (gameController.winningCombination[0] != -1) {
+			gameBoard.winningCombination = WinnerService.theWinningCombination();
+			if (gameBoard.winningCombination[0] != -1) {
 				gameController.gameWon = true;
 			}
 			
@@ -64,6 +63,10 @@ angular.module('app').controller("GameController", function(gameBoard, ComputerP
     
     gameController.getSquareSymbol = function(row, col) {
     	return gameBoard.getSquareSymbol(row,col);
+    }
+    
+    gameController.isWinningSquare = function(row, col) {
+    	return gameBoard.isWinningSquare(row, col);
     }
     
 });
